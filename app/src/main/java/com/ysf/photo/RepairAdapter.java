@@ -29,7 +29,6 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.jph.takephoto.model.TImage;
-import com.ysf.myapplication.R;
 
 import java.util.List;
 

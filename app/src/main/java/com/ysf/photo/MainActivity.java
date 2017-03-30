@@ -19,7 +19,6 @@ import com.jph.takephoto.compress.CompressConfig;
 import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
 import com.jph.takephoto.model.TakePhotoOptions;
-import com.ysf.myapplication.R;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,7 +37,6 @@ public class MainActivity extends TakePhotoActivity implements OnItemClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView= (RecyclerView) findViewById(R.id.recyclerView);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
         repairAdapter = new RepairAdapter(selectMedia);
         View footerView = getLayoutInflater().inflate(R.layout.footer_view, (ViewGroup) recyclerView.getParent(), false);
@@ -150,6 +148,4 @@ public class MainActivity extends TakePhotoActivity implements OnItemClickListen
                 .create();
         takePhoto.onEnableCompress(config, false);
     }
-    
-
 }

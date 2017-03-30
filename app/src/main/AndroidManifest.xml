@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ysf.myapplication">
+    package="com.ysf.photo">
 
     <application
         android:allowBackup="true"
@@ -10,16 +10,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--auto 屏幕适配-->
-        <meta-data android:name="design_width" android:value="1080"/>
-        <meta-data android:name="design_height" android:value="1920"/>
         <activity android:name=".MainActivity">
+
+        </activity>
+
+        <activity android:name=".PhotoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+            </activity>
+
+        <activity android:name=".DragPhotoActivity"
+            android:theme="@style/translucent"/>
     </application>
 
 </manifest>
