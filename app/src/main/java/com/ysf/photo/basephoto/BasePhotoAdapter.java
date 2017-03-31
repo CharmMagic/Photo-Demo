@@ -1,4 +1,4 @@
-package com.ysf.photo;
+package com.ysf.photo.basephoto;
 ////////////////////////////////////////////////////////////////////
 //                          _ooOoo_                               //
 //                         o8888888o                              //
@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.jph.takephoto.model.TImage;
+import com.ysf.photo.R;
 
 import java.util.List;
 
@@ -37,9 +38,9 @@ import java.util.List;
  * 个人主页：http://yishangfei.me
  * Github:https://github.com/yishangfei
  */
-public class RepairAdapter extends BaseQuickAdapter<TImage, BaseViewHolder> {
-    public RepairAdapter(List<TImage> data) {
-        super(R.layout.activity_repair_item, data);
+public class BasePhotoAdapter extends BaseQuickAdapter<TImage, BaseViewHolder> {
+    public BasePhotoAdapter(List<TImage> data) {
+        super(R.layout.activity_photo_item, data);
     }
 
     @Override
@@ -47,8 +48,8 @@ public class RepairAdapter extends BaseQuickAdapter<TImage, BaseViewHolder> {
         Glide.with(mContext)
                 .load(item.getCompressPath())
                 .crossFade()
-                .into((ImageView) helper.getView(R.id.repair_image));
-        helper.addOnClickListener(R.id.repair_del);
+                .into((ImageView) helper.getView(R.id.photo_image));
+        helper.addOnClickListener(R.id.photo_del);
     }
 
     @Override

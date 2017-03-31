@@ -1,4 +1,4 @@
-package com.ysf.photo;
+package com.ysf.photo.photo;
 ////////////////////////////////////////////////////////////////////
 //                          _ooOoo_                               //
 //                         o8888888o                              //
@@ -30,15 +30,12 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
 import com.jph.takephoto.app.TakePhoto;
-import com.jph.takephoto.app.TakePhotoActivity;
 import com.jph.takephoto.app.TakePhotoImpl;
 import com.jph.takephoto.compress.CompressConfig;
 import com.jph.takephoto.model.InvokeParam;
@@ -49,7 +46,8 @@ import com.jph.takephoto.model.TakePhotoOptions;
 import com.jph.takephoto.permission.InvokeListener;
 import com.jph.takephoto.permission.PermissionManager;
 import com.jph.takephoto.permission.TakePhotoInvocationHandler;
-import com.orhanobut.logger.Logger;
+import com.ysf.photo.zoom.DragPhotoActivity;
+import com.ysf.photo.R;
 
 import java.io.File;
 import java.io.Serializable;

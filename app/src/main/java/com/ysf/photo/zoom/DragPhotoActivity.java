@@ -1,4 +1,4 @@
-package com.ysf.photo;
+package com.ysf.photo.zoom;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import com.bumptech.glide.Glide;
 import com.jph.takephoto.model.TImage;
 import com.wingsofts.dragphotoview.DragPhotoView;
+import com.ysf.photo.R;
 
 import java.util.ArrayList;
 import java.util.List;

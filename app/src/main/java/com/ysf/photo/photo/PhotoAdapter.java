@@ -1,4 +1,4 @@
-package com.ysf.photo;
+package com.ysf.photo.photo;
 ////////////////////////////////////////////////////////////////////
 //                          _ooOoo_                               //
 //                         o8888888o                              //
@@ -29,10 +29,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.jph.takephoto.model.TImage;
+import com.ysf.photo.R;
 
 import java.util.ArrayList;
 import java.util.List;
