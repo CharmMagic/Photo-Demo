@@ -25,6 +25,7 @@ package com.ysf.photo.basephoto;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
@@ -42,6 +43,7 @@ import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
 import com.jph.takephoto.model.TakePhotoOptions;
 import com.ysf.photo.R;
+import com.ysf.photo.photo.PhotoAdapter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -62,14 +64,12 @@ public class BasePhotoActivity  extends TakePhotoActivity implements OnItemClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
-        recyclerView= (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
-        basePhotoAdapter = new BasePhotoAdapter(selectMedia);
-        View footerView = getLayoutInflater().inflate(R.layout.footer_view, (ViewGroup) recyclerView.getParent(), false);
-        footerView.setOnClickListener(this);
-        basePhotoAdapter.addFooterView(footerView, 0);
+        //设置RecyclerView
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        basePhotoAdapter = new BasePhotoAdapter(selectMedia,3);
         recyclerView.setAdapter(basePhotoAdapter);
-        recyclerView.addOnItemTouchListener(listener);
     }
 
     @Override
@@ -110,23 +110,15 @@ public class BasePhotoActivity  extends TakePhotoActivity implements OnItemClick
     }
 
     private void showImg(ArrayList<TImage> images) {
-        selectMedia = images;
-        if (images.size() < 3) {
-            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
-            basePhotoAdapter = new BasePhotoAdapter(images);
-            View footerView = getLayoutInflater().inflate(R.layout.footer_view, (ViewGroup) recyclerView.getParent(), false);
-            footerView.setOnClickListener(this);
-            basePhotoAdapter.addFooterView(footerView, 0);
-            recyclerView.setAdapter(basePhotoAdapter);
-            recyclerView.addOnItemTouchListener(listener);
-        } else {
-            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
-            basePhotoAdapter = new BasePhotoAdapter(images);
-            recyclerView.setAdapter(basePhotoAdapter);
-            recyclerView.addOnItemTouchListener(listener);
+        for (int i = 0; i < images.size(); i++) {
+            if (images.get(i).getCompressPath() != null) {
+                selectMedia.add(images.get(i));
+            }
         }
-
-
+        if (selectMedia != null) {
+            basePhotoAdapter.setNewData(selectMedia);
+            basePhotoAdapter.notifyDataSetChanged();
+        }
     }
 
     //加号点击事件

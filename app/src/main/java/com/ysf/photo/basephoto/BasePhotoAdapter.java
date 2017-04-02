@@ -23,12 +23,14 @@ package com.ysf.photo.basephoto;
 ////////////////////////////////////////////////////////////////////
 
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.jph.takephoto.model.TImage;
+import com.orhanobut.logger.Logger;
 import com.ysf.photo.R;
 
 import java.util.List;
@@ -39,20 +41,56 @@ import java.util.List;
  * Github:https://github.com/yishangfei
  */
 public class BasePhotoAdapter extends BaseQuickAdapter<TImage, BaseViewHolder> {
-    public BasePhotoAdapter(List<TImage> data) {
+    private int selectMax;
+    public final int TYPE_CAMERA = 1;
+    public final int TYPE_PICTURE = 2;
+
+
+    public BasePhotoAdapter(List<TImage> data,int selectMax) {
         super(R.layout.activity_photo_item, data);
+        this.selectMax=selectMax;
     }
+
+    @Override
+    public int getItemCount() {
+        if (mData.size() < selectMax) {
+            return mData.size() + 1;
+        } else {
+            return mData.size();
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (isShowAddItem(position)) {
+            return TYPE_CAMERA;
+        } else {
+            return TYPE_PICTURE;
+        }
+    }
+
+    private boolean isShowAddItem(int position) {
+        int size = mData.size() == 0 ? 0 : mData.size();
+        return position == size;
+    }
+
 
     @Override
     protected void convert(BaseViewHolder helper, TImage item) {
-        Glide.with(mContext)
-                .load(item.getCompressPath())
-                .crossFade()
-                .into((ImageView) helper.getView(R.id.photo_image));
-        helper.addOnClickListener(R.id.photo_del);
-    }
-
-    @Override
-    protected void setFullSpan(RecyclerView.ViewHolder holder) {
+        Logger.d(helper.getLayoutPosition());
+        Logger.d(helper.getAdapterPosition());
+        if (getItemViewType(helper.getAdapterPosition()) == TYPE_CAMERA) {
+            helper.setImageResource(R.id.photo_image,R.mipmap.icon_addpic)
+            .addOnClickListener(R.id.photo_image);
+            helper.getView(R.id.photo_del).setVisibility(View.INVISIBLE);
+        } else {
+            helper.getView(R.id.photo_del).setVisibility(View.VISIBLE);
+            helper.addOnClickListener(R.id.photo_image)
+                    .addOnClickListener(R.id.photo_del);
+            Glide.with(mContext)
+                    .load(item.getCompressPath())
+                    .crossFade()
+                    .into((ImageView) helper.getView(R.id.photo_image));
+        }
     }
 }
