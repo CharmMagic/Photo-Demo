@@ -29,7 +29,7 @@ dependencies {
     //Logger打印
     compile 'com.orhanobut:logger:1.15'
     //recycelerView 适配器
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.3'
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.14'
     //仿iOS的AlertViewController
     compile 'com.bigkoo:alertview:1.0.3'
     //图片选择

@@ -54,7 +54,7 @@ import java.util.List;
  * 个人主页：http://yishangfei.me
  * Github:https://github.com/yishangfei
  */
-public class BasePhotoActivity  extends TakePhotoActivity implements OnItemClickListener, View.OnClickListener {
+public class BasePhotoActivity extends TakePhotoActivity implements OnItemClickListener, View.OnClickListener {
 
     private RecyclerView recyclerView;
     private BasePhotoAdapter basePhotoAdapter;
@@ -64,12 +64,17 @@ public class BasePhotoActivity  extends TakePhotoActivity implements OnItemClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
-        //设置RecyclerView
-
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        basePhotoAdapter = new BasePhotoAdapter(selectMedia,3);
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
+        basePhotoAdapter = new BasePhotoAdapter(selectMedia);
+        View footerView = getLayoutInflater().inflate(R.layout.footer_view, (ViewGroup) recyclerView.getParent(), false);
+        footerView.setOnClickListener(this);
+        basePhotoAdapter.setFooterViewAsFlow(true);
+        basePhotoAdapter.addFooterView(footerView, 0);
         recyclerView.setAdapter(basePhotoAdapter);
+        recyclerView.addOnItemTouchListener(listener());
+
+
     }
 
     @Override
@@ -110,15 +115,24 @@ public class BasePhotoActivity  extends TakePhotoActivity implements OnItemClick
     }
 
     private void showImg(ArrayList<TImage> images) {
-        for (int i = 0; i < images.size(); i++) {
-            if (images.get(i).getCompressPath() != null) {
-                selectMedia.add(images.get(i));
-            }
+        selectMedia = images;
+        if (images.size() < 3) {
+            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
+            basePhotoAdapter = new BasePhotoAdapter(images);
+            View footerView = getLayoutInflater().inflate(R.layout.footer_view, (ViewGroup) recyclerView.getParent(), false);
+            footerView.setOnClickListener(this);
+            basePhotoAdapter.addFooterView(footerView, 0);
+            recyclerView.setAdapter(basePhotoAdapter);
+            recyclerView.addOnItemTouchListener(listener());
+        } else {
+            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
+            basePhotoAdapter = new BasePhotoAdapter(images);
+            recyclerView.setAdapter(basePhotoAdapter);
+            recyclerView.addOnItemTouchListener(listener());
+
         }
-        if (selectMedia != null) {
-            basePhotoAdapter.setNewData(selectMedia);
-            basePhotoAdapter.notifyDataSetChanged();
-        }
+
+
     }
 
     //加号点击事件
@@ -129,25 +143,24 @@ public class BasePhotoActivity  extends TakePhotoActivity implements OnItemClick
                 BasePhotoActivity.this, AlertView.Style.ActionSheet, this).show();
     }
 
-
     //删除按钮事件
-    private OnItemChildClickListener listener = new OnItemChildClickListener() {
-        @Override
-        public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-            Toast.makeText(BasePhotoActivity.this, "", Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onSimpleItemChildClick(final BaseQuickAdapter adapter, View view, final int position) {
-            switch (view.getId()){
-                case R.id.photo_del:
+    private com.chad.library.adapter.base.listener.OnItemClickListener listener() {
+        return new com.chad.library.adapter.base.listener.OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
+                if (selectMedia.size()==3){
+                    View footerView = getLayoutInflater().inflate(R.layout.footer_view, (ViewGroup) recyclerView.getParent(), false);
+                    footerView.setOnClickListener(BasePhotoActivity.this);
+                    basePhotoAdapter.addFooterView(footerView, 0);
                     selectMedia.remove(position);
-                    Toast.makeText(BasePhotoActivity.this, "111", Toast.LENGTH_SHORT).show();
                     basePhotoAdapter.notifyItemRemoved(position);
-                    break;
+                }else {
+                    selectMedia.remove(position);
+                    basePhotoAdapter.notifyItemRemoved(position);
+                }
             }
-        }
-    };
+        };
+    }
 
     //takephoto配置
     private void configTakePhotoOption(TakePhoto takePhoto) {
